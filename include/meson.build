@@ -1,0 +1,2 @@
+subdir('bar')
+subdir('foo')

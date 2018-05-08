@@ -1,0 +1,1 @@
+all_header_files += files('bar.hpp')
