@@ -1,4 +1,4 @@
-## Meson_Sample_Projec
+## Meson_Sample_Project
 
 This sample project uses meson to manage builds and already has auto-formatting, testing, linting, benchmarking, coverage, static analysis and documentation generation setup.
 Once the project structure follows the same general directory structure there should be minimum changes required to start a new cpp project capable of using this toolchain out of the box.
