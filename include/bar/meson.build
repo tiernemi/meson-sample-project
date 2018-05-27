@@ -1,1 +1,1 @@
-all_header_files += files('bar.hpp')
+project_header_files += files('bar.h')

@@ -16,7 +16,8 @@ RUN apt -y install \
     valgrind \
     wget \
     pkg-config \
-    doxygen
+    doxygen \
+    graphviz
 
 
 # add python 3.6
@@ -30,6 +31,9 @@ RUN echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" > /etc
     apt update && \
     apt -y install clang-6.0 clang-format-6.0 clang-tidy-6.0
 ENV PATH="${PATH}:/usr/lib/llvm-6.0/bin/"
+# Reconcile ninja relative paths with clang-tidy ugh!
+ENV PATH="${PATH}:/usr/lib/llvm-6.0/share/clang"
+RUN sed -i 's/subprocess.call(invocation)/subprocess.call(invocation, cwd=args.build_path)/g' /usr/lib/llvm-6.0/share/clang/run-clang-tidy.py
 
 # get pip
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3 && \

@@ -6,34 +6,60 @@ project('sample_cpp_project', 'cpp',
 )
 
 # Variables tracking sources and libraries
-all_sources = []
-all_static_libs = []
-all_header_files = []
-all_test_sources = []
-all_bench_sources = []
+library_path = []
+project_sources = []
+project_header_files = []
+project_test_sources = []
+project_benchmark_sources = []
 
+inc = [include_directories('include')]
+
+subdir('include')
+subdir('third_party')
 # This is where you should add in include directories
-inc = include_directories('include')
 
 # This triggers the builds of sources
 subdir('src')
 # This links all the static libs into the main source file to form a binary
-sample_cpp_project_bin = executable('sample_cpp_project_bin', main_source, include_directories : inc, link_with : all_static_libs)
 
-subdir('test')
-subdir('bench')
-subdir('doc')
+sample_cpp_project_bin_deps = [
+  meson.get_compiler('cpp').find_library('fizz', required : true, dirs : library_path)
+]
+
+sample_cpp_project_bin_dep_libs = [
+  foo_lib,
+  bar_lib,
+  baz_lib,
+]
+
+sample_cpp_project_bin = executable('sample_cpp_project_bin', 
+  main_source, 
+  include_directories : inc, 
+  dependencies : sample_cpp_project_bin_deps,
+  link_with : sample_cpp_project_bin_dep_libs)
+
+if get_option('enable-tests')
+  subdir('tests')
+endif
+if get_option('enable-benchmarks')
+  subdir('benchmarks')
+endif
+
+subdir('docs')
 
 # This adds the clang format file to the build directory
 configure_file(input : '.clang-format',
                output : '.clang-format',
                configuration : configuration_data())
 run_target('format',
-  command : ['clang-format','-i','-style=file',all_sources,all_test_sources,all_bench_sources,all_header_files])
+  command : ['clang-format','-i','-style=file',project_sources,project_test_sources,project_benchmark_sources,project_header_files])
 
+# This regex excludes any sources from the third_party, tests, benchmarks 
+# and gtest related files.
+regex = '^((?!(third_party|tests|benchmarks|gtest)).)*$'
 # This adds clang tidy support
 configure_file(input : '.clang-tidy',
                output : '.clang-tidy',
                configuration : configuration_data())
 run_target('tidy',
-  command : ['clang-tidy','-fix', all_sources, all_header_files])
+  command : ['run-clang-tidy.py','-fix', '-j' , '8', 'files', regex ,'-format', '-p='+ meson.build_root()])
