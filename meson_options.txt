@@ -1,0 +1,17 @@
+option('example',
+  type : 'boolean',
+  value : false,
+  description : 'Here is a sample option'
+)
+
+option('enable-tests',
+  type : 'boolean',
+  value : true,
+  description : 'Enables tests.'
+)
+
+option('enable-benchmarks',
+  type : 'boolean',
+  value : true,
+  description : 'Enables benchmarks.'
+)

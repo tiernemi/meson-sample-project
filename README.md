@@ -1,7 +1,14 @@
 ## Meson_Sample_Project
 
-This sample project uses meson to manage builds and already has auto-formatting, testing, linting, benchmarking, coverage, static analysis and documentation generation setup.
-Once the project structure follows the same general directory structure there should be minimum changes required to start a new cpp project capable of using this toolchain out of the box.
+This sample project uses meson to manage builds and already has auto-formatting, testing, linting, benchmarking, code coverage, static analysis and documentation generation.
+Once the project structure follows the same general directory structure there should be minimum changes required to start a new cpp project capable of using these tools out of the box.
+
+* **src** : Contains the project source files.
+* **include** : Contains the project header files.
+* **tests** : Contains unit tests for project functions + classes.
+* **benchmarks** :  Contains micro benchmarks for project functions + classes.
+* **docs** : Contains the doxygen config file used to generate the documentation.
+* **third_party** : Contains the third_party sources and libs. These are ignored for formatting + linting + documentation purposes.
 
 ### Dependencies
 
@@ -25,6 +32,7 @@ Once the project structure follows the same general directory structure there sh
 * software-properties-common
 * valgrind
 * wget
+* graphviz
 
 ### [OPTIONAL] Launch The Build Container
 
@@ -101,7 +109,7 @@ ninja format
 
 ### Tidying
 
-There is a linter integrated into this project which enforces various style choices. This will automatically fix your code to align with these standards.
+There is a linter integrated into this project which enforces various style choices. This will automatically fix your code to align with these standards. It will also display issues that can't be autofixed.
 
 ```bash
 ninja tidy
