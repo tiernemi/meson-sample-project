@@ -2,7 +2,7 @@ all_benchmark_deps = []
 all_benchmark_dep_libs = []
 all_benchmark_sources = []
 
-gbenchmark_dep = dependency('benchmark')
+gbenchmark_dep = benchmark.get_variable('google_benchmark_dep')
 thread_dep = dependency('threads')
 benchmark_main = files('benchmarks_main.cc')
 
