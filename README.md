@@ -1,6 +1,7 @@
-## Meson_Sample_Project
+## Meson Sample Project
 
 This sample project uses meson to manage builds and already has auto-formatting, testing, linting, benchmarking, code coverage, static analysis and documentation generation.
+
 Once the project structure follows the same general directory structure there should be minimum changes required to start a new cpp project capable of using these tools out of the box.
 
 * **src** : Contains the project source files.
@@ -10,7 +11,7 @@ Once the project structure follows the same general directory structure there sh
 * **docs** : Contains the doxygen config file used to generate the documentation.
 * **third_party** : Contains the third_party sources and libs. These are ignored for formatting + linting + documentation purposes.
 
-### Dependencies
+### Dependencies (all contained with the Docker container)
 
 * benchmark
 * build-essential
@@ -23,6 +24,7 @@ Once the project structure follows the same general directory structure there sh
 * gcovr
 * gdb
 * git
+* graphviz
 * gtest
 * libgtest-dev
 * meson-0.46
@@ -32,11 +34,11 @@ Once the project structure follows the same general directory structure there sh
 * software-properties-common
 * valgrind
 * wget
-* graphviz
+
 
 ### [OPTIONAL] Launch The Build Container
 
-In order to avoid costly build environemt setup times you can run the builds in a docker container. To launch the build_env it run the following commands.
+In order to avoid costly build environment setup times you can run the builds in a docker container. To launch the build_env it run the following commands.
 
 ```bash
 docker build . -t build_env --build-arg user=$USER --build-arg userid=$UID
@@ -65,7 +67,7 @@ Tests are created using googletest and can be run using ninja once inside the bu
 ninja test
 ```
 
-To run tests with address santization, build meson with this command.
+To run tests with address sanitization, build meson with this command.
 
 ```
 meson build -Db_sanitize=address

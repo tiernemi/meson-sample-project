@@ -2,7 +2,7 @@ all_test_deps = []
 all_test_dep_libs = []
 project_test_sources = []
 
-gtest_dep = dependency('gtest')
+gtest_dep = gtest.get_variable('gtest_dep')
 thread_dep = dependency('threads')
 test_main = files('tests_main.cc')
 
@@ -28,3 +28,4 @@ all_testes = executable('all_tests',
     include_directories : inc, 
     dependencies : all_test_deps, 
     link_with : all_test_dep_libs)
+

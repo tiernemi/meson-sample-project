@@ -38,6 +38,9 @@ sample_cpp_project_bin = executable('sample_cpp_project_bin',
   dependencies : sample_cpp_project_bin_deps,
   link_with : sample_cpp_project_bin_dep_libs)
 
+gtest = subproject('gtest')
+benchmark = subproject('benchmark')
+
 if get_option('enable-tests')
   subdir('tests')
 endif
@@ -63,3 +66,4 @@ configure_file(input : '.clang-tidy',
                configuration : configuration_data())
 run_target('tidy',
   command : ['run-clang-tidy.py','-fix', '-j' , '8', 'files', regex ,'-format', '-p='+ meson.build_root()])
+
