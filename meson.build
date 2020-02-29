@@ -1,7 +1,7 @@
 project('sample_cpp_project', 'cpp',
     version : '1.0',
     license : [ 'proprietary'],
-    meson_version : '>= 0.40.1',
+    meson_version : '>= 0.50.0',
     default_options : [ 'warning_level=3', 'buildtype=debugoptimized', 'cpp_std=c++11' ]
 )
 
@@ -53,7 +53,7 @@ subdir('docs')
 # This adds the clang format file to the build directory
 configure_file(input : '.clang-format',
                output : '.clang-format',
-               configuration : configuration_data())
+	       copy: true)
 run_target('format',
   command : ['clang-format','-i','-style=file',project_sources,project_test_sources,project_benchmark_sources,project_header_files])
 
@@ -63,7 +63,7 @@ regex = '^((?!(third_party|tests|benchmarks|gtest)).)*$'
 # This adds clang tidy support
 configure_file(input : '.clang-tidy',
                output : '.clang-tidy',
-               configuration : configuration_data())
+               copy : true)
 run_target('tidy',
   command : ['run-clang-tidy.py','-fix', '-j' , '8', 'files', regex ,'-format', '-p='+ meson.build_root()])
 
