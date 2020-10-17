@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 # required args, see README
 ARG user
@@ -7,6 +7,7 @@ RUN test -n "$user"
 RUN test -n "$userid"
 
 RUN apt update
+RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt -y install \
     build-essential \
     curl \
@@ -17,34 +18,16 @@ RUN apt -y install \
     wget \
     pkg-config \
     doxygen \
-    graphviz
-
-
-# add python 3.6
-RUN add-apt-repository ppa:deadsnakes/ppa && \
-    apt update && \
-    apt -y install python3.6
-
-# add clang 6
-RUN echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" > /etc/apt/sources.list.d/llvm.list && \
-    wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-    apt update && \
-    apt -y install clang-6.0 clang-format-6.0 clang-tidy-6.0
-ENV PATH="${PATH}:/usr/lib/llvm-6.0/bin/"
-# Reconcile ninja relative paths with clang-tidy ugh!
-ENV PATH="${PATH}:/usr/lib/llvm-6.0/share/clang"
-RUN sed -i 's/subprocess.call(invocation)/subprocess.call(invocation, cwd=args.build_path)/g' /usr/lib/llvm-6.0/share/clang/run-clang-tidy.py
+    graphviz \
+    python3 \
+    clang-10 \
+    clang-format-10 \
+    clang-tidy-10 \ 
+    cmake \
+    python3-pip
 
 # get pip
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3 && \
-    pip3 install ninja meson
-
-# install cmake
-WORKDIR /opt/cmake
-RUN wget https://cmake.org/files/v3.11/cmake-3.11.1-Linux-x86_64.sh && \
-    sh cmake-3.11.1-Linux-x86_64.sh --prefix=/opt/cmake --skip-license && \
-    ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake && \
-    rm cmake-3.11.1-Linux-x86_64.sh
+RUN pip3 install ninja meson gcovr
 
 # install google benchmark
 WORKDIR /root/Downloads
@@ -56,6 +39,10 @@ RUN cd /root/Downloads && \
     make -j 8 && \
     make install && \
     rm -rf /root/Downloads/benchmark
+
+ENV PATH="${PATH}:/usr/lib/llvm-10/bin/"
+ENV PATH="${PATH}:/usr/lib/llvm-10/share/clang"
+RUN sed -i 's/subprocess.call(invocation)/subprocess.call(invocation, cwd=args.build_path)/g' /usr/lib/llvm-10/share/clang/run-clang-tidy.py
 
 WORKDIR /code
 

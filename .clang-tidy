@@ -4,7 +4,7 @@ WarningsAsErrors: 'clang-diagnostic-*,clang-analyser-*,-clang-diagnostic-unused-
 HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false
 FormatStyle:     file
-User:            michael
+User:            anon
 CheckOptions:    
   - key:             bugprone-argument-comment.StrictMode
     value:           '0'

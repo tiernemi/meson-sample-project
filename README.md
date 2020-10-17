@@ -81,7 +81,7 @@ ninja test
 Meson has the ability to wrap the tests in valgrind. This is useful for spotting easily avoidable memory leaks. From within the build directory run
 
 ```bash
-meson test --wrap='valgrind --tool=helgrind' testname
+meson test --wrap='valgrind --tool=helgrind'
 ```
 
 ### Wrapping Tests With GDB
@@ -89,7 +89,7 @@ meson test --wrap='valgrind --tool=helgrind' testname
 Meson has the ability to wrap the tests in gdb. This is useful for debugging. From within the build directory run
 
 ```bash
-meson test --gdb testname
+meson test --gdb
 ```
 
 ### Running Benchmarks
@@ -132,7 +132,7 @@ Coverage reports require gcov.
 The build directory can be configured to generate coverage as follows.
 
 ```bash
- meson build_coverage <other flags> -Db_coverage=true
+ meson build_coverage -Db_coverage=true
 ```
 Coverage can then be generated as follows.
 
@@ -155,5 +155,5 @@ ninja scan-build
 The application can be run as follows.
 
 ```bash
-./sample_cpp_application
+./sample_cpp_application_bin
 ```
